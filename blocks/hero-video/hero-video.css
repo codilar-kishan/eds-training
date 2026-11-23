@@ -1,0 +1,135 @@
+.hero-video {
+  --hero-video-gap: 16px;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100svh;
+  background-color: var(--wsu-black);
+  color: var(--wsu-white);
+  overflow: hidden;
+}
+
+.hero-video .hero-video-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-video .hero-video-media :is(picture, img, video) {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-video .hero-video-media video {
+  z-index: 1;
+}
+
+.hero-video .hero-video-content {
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.hero-video .hero-video-mark {
+  flex: 0 0 auto;
+}
+
+.hero-video .hero-video-mark img {
+  display: block;
+  width: 300px;
+  max-width: 100%;
+  height: auto;
+}
+
+.hero-video .hero-video-text {
+  max-width: 60%;
+}
+
+.hero-video .hero-video-text :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+  color: var(--wsu-white);
+  font-size: 64px;
+  font-weight: 500;
+  line-height: 85px;
+  text-transform: uppercase;
+}
+
+.hero-video .hero-video-line {
+  display: block;
+}
+
+.hero-video .hero-video-text em {
+  font-family: var(--heading-font-family-secondary);
+}
+
+.hero-video .hero-video-text .button-wrapper {
+  margin-top: var(--hero-video-gap);
+}
+
+.hero-video .hero-video-text p:not(.button-wrapper) {
+  margin: var(--hero-video-gap) 0 0;
+}
+
+/* phones: smaller headline, shield capped at 30% */
+@media (width <= 600px) {
+  .hero-video .hero-video-content {
+    gap: 24px;
+  }
+
+  .hero-video .hero-video-mark {
+    max-width: 30%;
+  }
+
+  .hero-video .hero-video-text {
+    max-width: none;
+  }
+
+  .hero-video .hero-video-text :is(h1, h2, h3, h4, h5, h6) {
+    font-size: 36px;
+    line-height: 32px;
+  }
+}
+
+@media (width >= 992px) {
+  .hero-video .hero-video-text :is(h1, h2, h3, h4, h5, h6) {
+    font-size: 96px;
+  }
+}
+
+/* one-time staggered rise: shield, then each headline line */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-video .hero-video-mark,
+  .hero-video .hero-video-text > :is(h1, h2, h3, h4, h5, h6):not(:has(.hero-video-line)),
+  .hero-video .hero-video-line {
+    opacity: 0;
+    transform: translateY(50svh);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .hero-video .hero-video-mark { transition-delay: 0.05s; }
+  .hero-video .hero-video-line:nth-child(1) { transition-delay: 0.15s; }
+  .hero-video .hero-video-line:nth-child(2) { transition-delay: 0.25s; }
+  .hero-video .hero-video-line:nth-child(3) { transition-delay: 0.35s; }
+  .hero-video .hero-video-line:nth-child(n + 4) { transition-delay: 0.45s; }
+
+  .hero-video .is-visible .hero-video-mark,
+  .hero-video .is-visible .hero-video-text > :is(h1, h2, h3, h4, h5, h6):not(:has(.hero-video-line)),
+  .hero-video .is-visible .hero-video-line {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

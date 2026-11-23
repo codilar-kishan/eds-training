@@ -1,0 +1,341 @@
+.rich-background {
+  position: relative;
+  min-height: 100svh;
+  background-color: var(--wsu-crimson);
+  color: var(--wsu-white);
+  overflow-x: clip;
+}
+
+.rich-background .rich-background-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-position: center;
+  background-size: cover;
+}
+
+.rich-background.has-bg-image .rich-background-bg {
+  background-attachment: fixed;
+}
+
+/* readability gradient, switched off by the no-gradient option */
+.rich-background::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(90deg, rgb(0 0 0 / 55%) 0%, rgb(0 0 0 / 10%) 60%);
+  pointer-events: none;
+}
+
+.rich-background.gradient-red::before {
+  background: linear-gradient(135deg, rgb(153 0 51 / 85%) 0%, rgb(153 0 51 / 20%) 100%);
+}
+
+.rich-background.gradient-blue::before {
+  background: linear-gradient(135deg, rgb(0 102 153 / 85%) 0%, rgb(0 102 153 / 20%) 100%);
+}
+
+.rich-background.gradient-purple::before {
+  background: linear-gradient(135deg, rgb(102 51 153 / 85%) 0%, rgb(102 51 153 / 20%) 100%);
+}
+
+.rich-background.no-gradient::before {
+  background: none;
+}
+
+.rich-background .rich-background-content {
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  padding: 60px 20px 40px;
+}
+
+/* mobile order: shield, heading, description */
+.rich-background .rich-background-shield {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rich-background .rich-background-shield picture {
+  display: block;
+  width: min(300px, 100%);
+  height: 375px;
+}
+
+.rich-background .rich-background-shield img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rich-background .rich-background-title {
+  align-self: stretch;
+  margin-top: 24px;
+}
+
+.rich-background .rich-background-title :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+  color: var(--wsu-white);
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.8px;
+  text-transform: uppercase;
+}
+
+.rich-background .rich-background-title em {
+  display: block;
+  font-family: var(--heading-font-family-secondary);
+  font-weight: 350;
+}
+
+.rich-background .rich-background-description {
+  order: 3;
+  position: relative;
+  z-index: 10;
+  margin-top: 20px;
+  padding-bottom: 40px;
+}
+
+.rich-background .rich-background-description p {
+  margin: 0 0 4px;
+}
+
+.rich-background.mobile-hide .rich-background-shield picture {
+  display: none;
+}
+
+@media (width >= 992px) {
+  .rich-background .rich-background-content {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 0 40px;
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 30px 20px;
+  }
+
+  .rich-background .rich-background-description {
+    order: 0;
+    align-self: end;
+    margin: 0;
+    padding: 0 0 45px 10px;
+  }
+
+  .rich-background .rich-background-description p {
+    max-width: 420px;
+    font-size: 26px;
+    font-weight: 350;
+    line-height: 1.23;
+    letter-spacing: -0.3px;
+  }
+
+  .rich-background .rich-background-shield {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  .rich-background .rich-background-shield.position-center-left {
+    justify-content: flex-end;
+  }
+
+  .rich-background .rich-background-shield.position-center {
+    justify-content: center;
+  }
+
+  .rich-background .rich-background-shield picture {
+    width: 450px;
+    height: auto;
+    aspect-ratio: 450 / 550;
+  }
+
+  /* heading overlaps the right edge of the shield */
+  .rich-background .rich-background-title {
+    position: absolute;
+    top: 25%;
+    left: 46%;
+    z-index: 10;
+    margin: 0;
+  }
+
+  .rich-background .rich-background-title :is(h1, h2, h3, h4, h5, h6) {
+    font-size: 70px;
+    font-weight: 500;
+    line-height: 72px;
+    letter-spacing: -1.4px;
+  }
+
+  .rich-background .rich-background-title em {
+    padding-left: 72px;
+  }
+
+  .rich-background.mobile-hide .rich-background-shield picture {
+    display: block;
+  }
+}
+
+@media (width >= 1200px) {
+  .rich-background .rich-background-content {
+    padding: 30px 0;
+  }
+}
+
+/* small desktop: narrower columns, 320x400 shield, smaller title */
+@media (width >= 992px) and (width < 1220px) {
+  /* as on the reference: a fixed 1140px grid that is clipped at the right edge */
+  .rich-background .rich-background-content {
+    width: 1140px;
+    max-width: none;
+    margin: 0;
+    grid-template-columns: minmax(230px, 320px) 1fr;
+    gap: 0 30px;
+    padding: 10px 30px;
+  }
+
+  .rich-background .rich-background-shield picture {
+    width: 320px;
+    aspect-ratio: 320 / 400;
+  }
+
+  .rich-background .rich-background-title {
+    top: 32%;
+    left: 40%;
+  }
+
+  .rich-background .rich-background-title :is(h1, h2, h3, h4, h5, h6) {
+    font-size: 40px;
+    line-height: 50px;
+  }
+}
+
+/* wide screens: 1440px content, larger shield and title */
+@media (width >= 1920px) {
+  .rich-background .rich-background-content {
+    grid-template-columns: minmax(350px, 450px) 1fr;
+    max-width: 1440px;
+    padding: 30px 0;
+  }
+
+  .rich-background .rich-background-shield picture {
+    width: 530px;
+    height: clamp(500px, 72vh, 750px);
+    aspect-ratio: auto;
+  }
+
+  .rich-background .rich-background-title {
+    top: 22%;
+    left: 42%;
+  }
+
+  .rich-background .rich-background-title :is(h1, h2, h3, h4, h5, h6) {
+    font-size: 96px;
+    line-height: 85px;
+    letter-spacing: 0;
+  }
+
+  .rich-background .rich-background-description p {
+    font-size: 32px;
+    line-height: 40px;
+  }
+}
+
+/* consecutive rich-background blocks stack as sticky full-screen panels */
+.section > .rich-background-wrapper:has(+ .rich-background-wrapper),
+.section > .rich-background-wrapper + .rich-background-wrapper {
+  position: sticky;
+  top: 0;
+  min-height: 100svh;
+}
+
+.section > .rich-background-wrapper:has(+ .rich-background-wrapper) { z-index: 1; }
+.section > .rich-background-wrapper + .rich-background-wrapper { z-index: 2; }
+.section > .rich-background-wrapper + .rich-background-wrapper + .rich-background-wrapper { z-index: 3; }
+.section > .rich-background-wrapper + .rich-background-wrapper + .rich-background-wrapper + .rich-background-wrapper { z-index: 4; }
+
+.section:has(> .rich-background-wrapper) {
+  overflow-x: clip;
+}
+
+/* iOS ignores fixed backgrounds on non-root elements */
+@media (hover: none) and (pointer: coarse) {
+  .rich-background.has-bg-image .rich-background-bg {
+    background-attachment: scroll;
+  }
+}
+
+/* looping shield motion (desktop only) */
+@keyframes rich-background-float {
+  0%,
+  100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes rich-background-pulse {
+  0%,
+  100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+/* desktop entry: re-plays every time the panel comes into view */
+@media (width >= 1220px) and (prefers-reduced-motion: no-preference) {
+  .rich-background .rich-background-shield picture {
+    opacity: 0;
+    transform: scale(0.92);
+    transition: opacity 0.9s ease-out 0.1s, transform 0.9s ease-out 0.1s;
+  }
+
+  .rich-background .rich-background-shield.fade picture {
+    transform: none;
+    transition: opacity 1.2s ease-out;
+  }
+
+  .rich-background .rich-background-description {
+    opacity: 0;
+    transform: translateX(-120%);
+    transition: transform 0.8s ease-out 0.25s, opacity 0.7s ease-out 0.25s;
+  }
+
+  .rich-background .rich-background-title {
+    opacity: 0;
+    transform: translateX(120%);
+    transition: transform 0.8s ease-out 0.4s, opacity 0.7s ease-out 0.4s;
+  }
+
+  .rich-background.animate-in .rich-background-shield picture,
+  .rich-background.animate-in .rich-background-description,
+  .rich-background.animate-in .rich-background-title {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* looping shields only fade in; the loop owns the transform */
+  .rich-background .rich-background-shield.float picture {
+    animation: rich-background-float 4s ease-in-out infinite;
+  }
+
+  .rich-background .rich-background-shield.pulse picture {
+    animation: rich-background-pulse 3s ease-in-out infinite;
+  }
+}
+
+/* phones: gentle fade-in of the shield */
+@media (width < 992px) and (prefers-reduced-motion: no-preference) {
+  .rich-background .rich-background-shield picture {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 1.8s ease-out, transform 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .rich-background.animate-in .rich-background-shield picture {
+    opacity: 1;
+    transform: none;
+  }
+}
