@@ -19,6 +19,30 @@
   display: block;
 }
 
+.columns-wrapper + .columns-wrapper {
+  margin-top: 16px;
+}
+
+.columns.text-center h2 {
+  font-size: 24px;
+  line-height: 1.33;
+}
+
+/* a row of link-only cells renders as buttons */
+.columns.button-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.columns.button-list .button-wrapper {
+  margin: 0;
+}
+
+.columns.button-list.btn-center {
+  justify-content: center;
+}
+
 @media (width >= 900px) {
   .columns > div {
     align-items: center;
@@ -29,5 +53,9 @@
   .columns > div > div {
     flex: 1;
     order: unset;
+  }
+
+  .columns.text-center h2 {
+    font-size: 32px;
   }
 }

@@ -1,6 +1,4 @@
 import {
-  loadHeader,
-  loadFooter,
   decorateIcons,
   decorateSections,
   decorateBlocks,
@@ -10,6 +8,8 @@ import {
   loadSections,
   loadCSS,
   buildBlock,
+  readBlockConfig,
+  toClassName,
 } from './aem.js';
 
 if (window.trustedTypes && window.trustedTypes.createPolicy) {
@@ -104,38 +104,59 @@ function buildAutoBlocks(main) {
 }
 
 /**
- * Decorates formatted links to style them as buttons.
+ * Applies section metadata: `style` values become classes, `background`
+ * becomes a `bg-<name>` class, anything else becomes a data attribute.
+ * @param {Element} main The main element
+ */
+function decorateSectionMetadata(main) {
+  main.querySelectorAll(':scope > .section .section-metadata').forEach((meta) => {
+    const section = meta.closest('.section');
+    const config = readBlockConfig(meta);
+    Object.entries(config).forEach(([key, value]) => {
+      if (!value) return;
+      if (key === 'style') {
+        value.split(',').map(toClassName).filter(Boolean)
+          .forEach((cls) => section.classList.add(cls));
+      } else if (key === 'background') {
+        section.classList.add(`bg-${toClassName(value)}`);
+      } else {
+        section.dataset[key.replace(/-([a-z])/g, (_, c) => c.toUpperCase())] = value;
+      }
+    });
+    const wrapper = meta.parentElement;
+    meta.remove();
+    if (wrapper && !wrapper.children.length) wrapper.remove();
+    section.classList.remove('section-metadata-container');
+  });
+}
+
+/**
+ * Turns a link that sits alone in its paragraph into a button.
+ * Italic links become secondary (outline) buttons.
  * @param {HTMLElement} main The main container element
  */
-function decorateButtons(main) {
+export function decorateButtons(main) {
   main.querySelectorAll('p a[href]').forEach((a) => {
     a.title = a.title || a.textContent;
     const p = a.closest('p');
     const text = a.textContent.trim();
 
-    // quick structural checks
-    if (a.querySelector('img') || p.textContent.trim() !== text) return;
+    if (!text || a.querySelector('img, picture') || p.textContent.trim() !== text) return;
+    if (p.querySelectorAll('a').length > 1) return;
 
-    // skip URL display links
+    // skip links that display their own URL
     try {
       if (new URL(a.href).href === new URL(text, window.location).href) return;
     } catch { /* continue */ }
 
-    // require authored formatting for buttonization
+    // bold links stay bold text links
     const strong = a.closest('strong');
-    const em = a.closest('em');
-    if (!strong && !em) return;
+    if (strong && p.contains(strong)) return;
 
+    const em = a.closest('em');
     p.className = 'button-wrapper';
     a.className = 'button';
-    if (strong && em) { // high-impact call-to-action
-      a.classList.add('accent');
-      const outer = strong.contains(em) ? strong : em;
-      outer.replaceWith(a);
-    } else if (strong) {
-      a.classList.add('primary');
-      strong.replaceWith(a);
-    } else {
+    if (em && p.contains(em)) {
       a.classList.add('secondary');
       em.replaceWith(a);
     }
@@ -152,6 +173,7 @@ export function decorateMain(main) {
   buildAutoBlocks(main);
   decorateSections(main);
   decorateBlocks(main);
+  decorateSectionMetadata(main);
   decorateButtons(main);
 }
 
@@ -184,16 +206,12 @@ async function loadEager(doc) {
  * @param {Element} doc The container element
  */
 async function loadLazy(doc) {
-  loadHeader(doc.querySelector('body > header'));
-
   const main = doc.querySelector('main');
   await loadSections(main);
 
   const { hash } = window.location;
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
-
-  loadFooter(doc.querySelector('body > footer'));
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();

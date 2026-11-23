@@ -1,0 +1,151 @@
+.pathway-cards {
+  /* shield width per breakpoint; the frame adds the dot offset on the right */
+  --pathway-cards-width: 200px;
+  --pathway-cards-gap: 24px;
+
+  padding: 40px 0;
+}
+
+.pathway-cards .pathway-cards-title {
+  margin: 0 0 52px;
+  padding-left: 12px;
+  color: var(--wsu-accent-red);
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.pathway-cards .pathway-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px var(--pathway-cards-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pathway-cards .pathway-cards-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+/* shield photo with the dot frame peeking out top-right */
+.pathway-cards .pathway-cards-image {
+  position: relative;
+  width: min(calc(var(--pathway-cards-width) * 382 / 340), 100%);
+  aspect-ratio: 382 / 491;
+}
+
+.pathway-cards .pathway-cards-image::before {
+  content: '';
+  position: absolute;
+  top: -15px;
+  right: -3.18%;
+  z-index: 0;
+  width: 88.95%;
+  height: 86.35%;
+  background: url('../../icons/shield-dots.svg') no-repeat 0 0 / 100% 100%;
+}
+
+.pathway-cards .pathway-cards-image picture {
+  position: absolute;
+  top: 13.65%;
+  left: 0;
+  z-index: 1;
+  display: block;
+  width: 88.95%;
+  height: 86.35%;
+}
+
+.pathway-cards .pathway-cards-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pathway-cards .pathway-cards-body {
+  width: 74%;
+  text-align: center;
+}
+
+.pathway-cards .pathway-cards-body p {
+  margin: 0;
+  font-size: var(--body-font-size-l);
+  line-height: 1.3;
+}
+
+.pathway-cards .pathway-cards-cta {
+  margin-top: auto;
+  margin-bottom: 24px;
+}
+
+.pathway-cards .pathway-cards-cta .button-wrapper {
+  margin: 0;
+}
+
+.pathway-cards .pathway-cards-cta a.button {
+  --button-color: var(--wsu-accent-red);
+
+  width: 249px;
+}
+
+/* the block runs edge to edge until the 920px column kicks in */
+@media (width < 992px) {
+  main > .section > .pathway-cards-wrapper {
+    padding: 0;
+  }
+}
+
+@media (width >= 768px) {
+  .pathway-cards {
+    --pathway-cards-width: 220px;
+    --pathway-cards-gap: 32px;
+  }
+
+  .pathway-cards .pathway-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 56px;
+  }
+
+  .pathway-cards .pathway-cards-image::before {
+    top: -24px;
+  }
+
+  .pathway-cards .pathway-cards-body p {
+    line-height: 1.4;
+  }
+}
+
+@media (width >= 992px) {
+  .pathway-cards {
+    --pathway-cards-width: 250px;
+    --pathway-cards-gap: 40px;
+  }
+
+  .pathway-cards .pathway-cards-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 40px;
+  }
+
+  .pathway-cards .pathway-cards-title {
+    margin-bottom: 70px;
+    padding-left: 30px;
+    font-size: 48px;
+  }
+}
+
+@media (width >= 1220px) {
+  .pathway-cards {
+    --pathway-cards-width: 280px;
+  }
+}
+
+@media (width >= 1920px) {
+  .pathway-cards {
+    --pathway-cards-width: 320px;
+    --pathway-cards-gap: 80px;
+  }
+}

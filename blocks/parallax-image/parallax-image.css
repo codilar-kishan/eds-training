@@ -1,0 +1,295 @@
+.parallax-image {
+  position: relative;
+  min-height: 100svh;
+  background-color: var(--wsu-crimson);
+  color: var(--wsu-white);
+  overflow: hidden;
+}
+
+.parallax-image .parallax-image-content {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 90svh;
+  padding: 40px 20px 20px;
+}
+
+.parallax-image.mobile-text-first .parallax-image-content {
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+}
+
+.parallax-image .parallax-image-media,
+.parallax-image .parallax-image-text {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 24px;
+}
+
+.parallax-image .parallax-image-media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* nudged down with `top` so the offset does not add height */
+.parallax-image .parallax-image-media picture {
+  position: relative;
+  top: 25px;
+  z-index: 3;
+  display: block;
+  width: min(300px, 100%);
+  height: 410px;
+}
+
+/* image below the text on phones/tablets gets breathing room before the arrow */
+@media (width < 992px) {
+  .parallax-image.mobile-text-first .parallax-image-media picture {
+    margin-bottom: 35px;
+  }
+}
+
+.parallax-image .parallax-image-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* dot motif: desktop only, as on the reference */
+.parallax-image .parallax-image-dots {
+  display: none;
+  position: absolute;
+  inset-block-start: -75px;
+  inset-inline-end: 1%;
+  z-index: 0;
+  width: 50%;
+  height: 100%;
+  max-width: 400px;
+  background: url('../../icons/dot-pattern.svg') repeat 0 50% / 46px 58px;
+  opacity: 0.6;
+}
+
+.parallax-image .parallax-image-text :is(h1, h2, h3) {
+  margin: 0;
+  padding-bottom: 20px;
+  color: var(--wsu-white);
+  font-family: var(--body-font-family-book);
+  font-size: 50px;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.parallax-image .parallax-image-text p {
+  margin: 0;
+  font-family: var(--body-font-family-book);
+  font-weight: 350;
+}
+
+.parallax-image .parallax-image-text em {
+  font-family: var(--heading-font-family-secondary);
+}
+
+.parallax-image .parallax-image-text .button-wrapper {
+  margin-top: 24px;
+}
+
+/* tablet: side by side, 280px shield */
+@media (width >= 768px) and (width < 992px) {
+  .parallax-image {
+    min-height: 60vh;
+  }
+
+  .parallax-image .parallax-image-content,
+  .parallax-image.mobile-text-first .parallax-image-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 40px;
+    padding: 40px 30px;
+  }
+
+  .parallax-image .parallax-image-media {
+    margin-bottom: 24px;
+  }
+
+  .parallax-image .parallax-image-text {
+    margin-bottom: 60px;
+  }
+
+  .parallax-image .parallax-image-media picture {
+    width: 280px;
+    height: auto;
+    aspect-ratio: 340 / 424;
+    margin-bottom: 0;
+  }
+
+  .parallax-image.image-right .parallax-image-media {
+    grid-column: 2;
+    grid-row: 1;
+    justify-content: flex-end;
+  }
+
+  .parallax-image.image-right .parallax-image-text {
+    grid-column: 1;
+    grid-row: 1;
+  }
+}
+
+/* desktop: 1fr / 1.2fr grid, 350px shield; the panel is exactly one screen tall */
+@media (width >= 992px) {
+  .parallax-image {
+    height: 100svh;
+  }
+
+  .parallax-image .parallax-image-content,
+  .parallax-image.mobile-text-first .parallax-image-content {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    align-items: center;
+    gap: 60px;
+    min-height: 100svh;
+    padding: 60px 40px;
+  }
+
+  .parallax-image.image-right .parallax-image-content {
+    grid-template-columns: 1.2fr 1fr;
+  }
+
+  .parallax-image .parallax-image-media,
+  .parallax-image .parallax-image-text {
+    max-width: 850px;
+    margin: 0;
+  }
+
+  .parallax-image.image-right .parallax-image-media {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .parallax-image .parallax-image-media picture {
+    width: 350px;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    margin-bottom: 0;
+  }
+
+  .parallax-image .parallax-image-text :is(h1, h2, h3) {
+    font-weight: 350;
+    letter-spacing: normal;
+  }
+
+  .parallax-image .parallax-image-text p {
+    margin: 0 0 24px;
+    font-size: 32px;
+    line-height: 1.25;
+  }
+
+  .parallax-image .parallax-image-text p.button-wrapper {
+    margin: 0;
+    font-size: 16px;
+  }
+
+  /* image-right: text box hugs the image, at most 580px wide */
+  .parallax-image.image-right .parallax-image-text {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: end;
+    box-sizing: border-box;
+    width: min(580px, 100%);
+    padding: 20px 0 0 10px;
+  }
+
+  .parallax-image.image-right .parallax-image-text :is(h1, h2, h3) {
+    max-width: 570px;
+  }
+}
+
+@media (width >= 1220px) {
+  .parallax-image .parallax-image-content,
+  .parallax-image.mobile-text-first .parallax-image-content {
+    gap: 80px;
+    padding: 80px;
+  }
+
+  .parallax-image .parallax-image-media picture {
+    width: 400px;
+  }
+}
+
+/* the dot motif only appears on wide screens */
+@media (width >= 1300px) {
+  .parallax-image .parallax-image-dots {
+    display: block;
+    max-height: 590px;
+  }
+
+  .parallax-image.image-right .parallax-image-text .parallax-image-dots {
+    inset-block-start: -92px;
+    inset-inline: -20% auto;
+    width: 50%;
+    min-width: 73%;
+    min-height: 400px;
+  }
+}
+
+@media (width >= 1920px) {
+  .parallax-image .parallax-image-content,
+  .parallax-image.mobile-text-first .parallax-image-content {
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    padding: 100px 240px;
+  }
+
+  .parallax-image .parallax-image-media {
+    justify-content: flex-start;
+  }
+
+  .parallax-image .parallax-image-media picture {
+    width: 576px;
+    height: auto;
+    aspect-ratio: 576 / 720;
+  }
+
+  .parallax-image .parallax-image-text {
+    bottom: 10%;
+  }
+
+  .parallax-image.image-right .parallax-image-text .parallax-image-dots {
+    inset-block-start: -20%;
+    max-height: 350px;
+  }
+}
+
+/* desktop: image and text slide in from opposite sides, once */
+@media (width >= 992px) and (prefers-reduced-motion: no-preference) {
+  .parallax-image .parallax-image-media,
+  .parallax-image .parallax-image-text {
+    opacity: 0;
+    transition:
+      transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      opacity 0.8s ease-out;
+  }
+
+  .parallax-image .parallax-image-media { transform: translateX(-120%); }
+  .parallax-image .parallax-image-text { transform: translateX(120%); }
+  .parallax-image.image-right .parallax-image-media { transform: translateX(120%); }
+  .parallax-image.image-right .parallax-image-text { transform: translateX(-120%); }
+
+  .parallax-image.speed-slow :is(.parallax-image-media, .parallax-image-text) {
+    transition-duration: 1.5s, 1.2s;
+  }
+
+  .parallax-image.speed-fast :is(.parallax-image-media, .parallax-image-text) {
+    transition-duration: 0.6s, 0.5s;
+  }
+
+  .parallax-image.animate-in .parallax-image-media,
+  .parallax-image.animate-in .parallax-image-text {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
