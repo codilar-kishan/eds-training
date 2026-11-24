@@ -104,24 +104,41 @@ function buildAutoBlocks(main) {
 }
 
 /**
+ * Applies a section's `background` and `style` settings as classes.
+ * @param {Element} section
+ * @param {string} key setting name
+ * @param {string} value setting value
+ */
+function applySectionSetting(section, key, value) {
+  if (!value) return;
+  if (key === 'style') {
+    value.split(',').map(toClassName).filter(Boolean)
+      .forEach((cls) => section.classList.add(cls));
+  } else if (key === 'background') {
+    section.classList.add(`bg-${toClassName(value)}`);
+  } else {
+    section.dataset[key.replace(/-([a-z])/g, (_, c) => c.toUpperCase())] = value;
+  }
+}
+
+/**
  * Applies section metadata: `style` values become classes, `background`
  * becomes a `bg-<name>` class, anything else becomes a data attribute.
+ * On preview/live, AEM has already turned Section Metadata into data-*
+ * attributes on the section; local or raw HTML still carries the table.
  * @param {Element} main The main element
  */
 function decorateSectionMetadata(main) {
+  main.querySelectorAll(':scope > .section').forEach((section) => {
+    ['background', 'style'].forEach((key) => {
+      applySectionSetting(section, key, section.dataset[key]);
+    });
+  });
+
   main.querySelectorAll(':scope > .section .section-metadata').forEach((meta) => {
     const section = meta.closest('.section');
-    const config = readBlockConfig(meta);
-    Object.entries(config).forEach(([key, value]) => {
-      if (!value) return;
-      if (key === 'style') {
-        value.split(',').map(toClassName).filter(Boolean)
-          .forEach((cls) => section.classList.add(cls));
-      } else if (key === 'background') {
-        section.classList.add(`bg-${toClassName(value)}`);
-      } else {
-        section.dataset[key.replace(/-([a-z])/g, (_, c) => c.toUpperCase())] = value;
-      }
+    Object.entries(readBlockConfig(meta)).forEach(([key, value]) => {
+      applySectionSetting(section, key, value);
     });
     const wrapper = meta.parentElement;
     meta.remove();
